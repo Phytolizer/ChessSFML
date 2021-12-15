@@ -35,4 +35,13 @@ function(chess_executable TARGET_NAME)
     )
 endfunction(chess_executable)
 
-chess_executable("Chess" SOURCES "Main.c")
+chess_executable(
+    "Chess"
+    SOURCES
+    "Main.c"
+    LINK_LIBRARIES
+    "csfml-audio"
+    "csfml-graphics"
+    "csfml-system"
+    "csfml-window"
+)
