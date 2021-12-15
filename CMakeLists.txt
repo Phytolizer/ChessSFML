@@ -35,13 +35,38 @@ function(chess_executable TARGET_NAME)
     )
 endfunction(chess_executable)
 
-chess_executable(
-    "Chess"
+function(chess_library TARGET_NAME)
+    set(MULTI_VALUE_ARGS "SOURCES" "INCLUDE_DIRECTORIES" "LINK_LIBRARIES")
+    cmake_parse_arguments(
+        PARSE_ARGV 0 "CHESS_LIBRARY" "" "" "${MULTI_VALUE_ARGS}"
+    )
+    list(TRANSFORM "CHESS_LIBRARY_SOURCES" PREPEND "Source/${TARGET_NAME}/")
+    add_library("${TARGET_NAME}" STATIC "${CHESS_LIBRARY_SOURCES}")
+    if(DEBUGGING)
+        cmake_print_variables(
+            "CHESS_LIBRARY_SOURCES" "CHESS_LIBRARY_INCLUDE_DIRECTORIES"
+            "CHESS_LIBRARY_LINK_LIBRARIES"
+        )
+    endif()
+    target_link_libraries(
+        "${TARGET_NAME}" PUBLIC "${CHESS_LIBRARY_LINK_LIBRARIES}"
+    )
+    target_include_directories(
+        "${TARGET_NAME}" PUBLIC "${CHESS_LIBRARY_INCLUDE_DIRECTORIES}"
+    )
+endfunction(chess_library)
+
+chess_library(
+    "ChessLib"
     SOURCES
-    "Main.c"
+    "ChessGrid.c"
+    "ChessPieceType.c"
+    INCLUDE_DIRECTORIES
+    "Include"
     LINK_LIBRARIES
-    "csfml-audio"
     "csfml-graphics"
     "csfml-system"
     "csfml-window"
 )
+
+chess_executable("Chess" SOURCES "Main.c" LINK_LIBRARIES "ChessLib")
