@@ -1,3 +1,4 @@
+#include <Chess/ChessGrid.h>
 #include <SFML/Graphics/RenderWindow.h>
 #include <SFML/Window/Event.h>
 
@@ -10,6 +11,8 @@ int main(void)
             .height = 600,
         },
         "Chess", sfResize | sfClose, NULL);
+    ChessGrid grid;
+    ChessGrid_init(&grid);
     while (sfRenderWindow_isOpen(window))
     {
         sfEvent event;
@@ -21,6 +24,7 @@ int main(void)
                 sfRenderWindow_close(window);
                 break;
             case sfEvtResized:
+                ChessGrid_scaleToFit(&grid, (sfVector2f){.x = event.size.width, .y = event.size.height});
                 sfRenderWindow_setSize(window, (sfVector2u){.x = event.size.width, .y = event.size.height});
                 break;
             default:
@@ -28,6 +32,7 @@ int main(void)
             }
         }
         sfRenderWindow_clear(window, (sfColor){.r = 0x28, .g = 0x27, .b = 0x29, .a = 0xFF});
+        ChessGrid_render(&grid, window);
         sfRenderWindow_display(window);
     }
     sfRenderWindow_destroy(window);
