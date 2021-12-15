@@ -5,6 +5,5 @@
 
 typedef struct
 {
-    bool piecePresent;
-    ChessPiece piece;
+    ChessPiece* piece;
 } ChessTile;

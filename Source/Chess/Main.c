@@ -27,7 +27,7 @@ int main(void)
                 break;
             }
         }
-        sfRenderWindow_clear(window, sfBlack);
+        sfRenderWindow_clear(window, (sfColor){.r = 0x28, .g = 0x27, .b = 0x29, .a = 0xFF});
         sfRenderWindow_display(window);
     }
     sfRenderWindow_destroy(window);
