@@ -1,5 +1,8 @@
 #include <Chess/ChessGrid.h>
+#include <SFML/Graphics/Rect.h>
 #include <SFML/Graphics/RenderWindow.h>
+#include <SFML/Graphics/Types.h>
+#include <SFML/Graphics/View.h>
 #include <SFML/Window/Event.h>
 #include <stdio.h>
 
@@ -8,8 +11,8 @@ int main(void)
     sfRenderWindow* window = sfRenderWindow_create(
         (sfVideoMode){
             .bitsPerPixel = 32,
-            .width = 600,
-            .height = 600,
+            .width = 800,
+            .height = 800,
         },
         "Chess", sfResize | sfClose, NULL);
     ChessGrid grid;
@@ -24,9 +27,18 @@ int main(void)
             case sfEvtClosed:
                 sfRenderWindow_close(window);
                 break;
-            case sfEvtResized:
+            case sfEvtResized: {
+                sfView* view = sfView_createFromRect((sfFloatRect){
+                    .left = 0,
+                    .top = 0,
+                    .width = event.size.width,
+                    .height = event.size.height,
+                });
+                sfRenderWindow_setView(window, view);
+                sfView_destroy(view);
                 ChessGrid_scaleToFit(&grid, (sfVector2f){.x = event.size.width, .y = event.size.height});
-                break;
+            }
+            break;
             case sfEvtMouseMoved:
                 printf("Mouse moved: %d, %d\n", event.mouseMove.x, event.mouseMove.y);
                 break;
