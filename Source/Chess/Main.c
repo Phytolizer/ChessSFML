@@ -34,6 +34,7 @@ int main(void)
         ChessGrid_render(&grid, window);
         sfRenderWindow_display(window);
     }
+    ChessGrid_deinit(&grid);
     sfRenderWindow_destroy(window);
     return 0;
 }
