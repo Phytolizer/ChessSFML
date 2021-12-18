@@ -7,12 +7,12 @@ int main(void)
     sfRenderWindow* window = sfRenderWindow_create(
         (sfVideoMode){
             .bitsPerPixel = 32,
-            .width = 800,
+            .width = 600,
             .height = 600,
         },
         "Chess", sfResize | sfClose, NULL);
     ChessGrid grid;
-    ChessGrid_init(&grid);
+    ChessGrid_init(&grid, window);
     while (sfRenderWindow_isOpen(window))
     {
         sfEvent event;
@@ -25,7 +25,6 @@ int main(void)
                 break;
             case sfEvtResized:
                 ChessGrid_scaleToFit(&grid, (sfVector2f){.x = event.size.width, .y = event.size.height});
-                sfRenderWindow_setSize(window, (sfVector2u){.x = event.size.width, .y = event.size.height});
                 break;
             default:
                 break;

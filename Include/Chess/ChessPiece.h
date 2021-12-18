@@ -6,5 +6,5 @@
 typedef struct
 {
     ChessPieceType type;
-    sfRenderTexture* renderTexture;
+    sfTexture* spriteSheet;
 } ChessPiece;

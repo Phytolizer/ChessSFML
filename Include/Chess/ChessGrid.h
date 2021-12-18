@@ -11,6 +11,7 @@ typedef struct
     sfTexture* piecesSpriteSheet;
 } ChessGrid;
 
-void ChessGrid_init(ChessGrid* grid);
+void ChessGrid_init(ChessGrid* grid, sfRenderWindow* window);
+void ChessGrid_deinit(ChessGrid* grid);
 void ChessGrid_scaleToFit(ChessGrid* grid, sfVector2f size);
 void ChessGrid_render(ChessGrid* grid, sfRenderWindow* window);
