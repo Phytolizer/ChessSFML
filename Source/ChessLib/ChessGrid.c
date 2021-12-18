@@ -4,6 +4,7 @@
 #include <SFML/Graphics/RenderWindow.h>
 #include <SFML/Graphics/Texture.h>
 #include <SFML/Graphics/Types.h>
+#include <stdio.h>
 #include <string.h>
 
 void ChessGrid_init(ChessGrid* grid, sfRenderWindow* window)
@@ -38,6 +39,7 @@ void ChessGrid_scaleToFit(ChessGrid* grid, sfVector2f size)
         sfRectangleShape_setOrigin(grid->gridShape, (sfVector2f){.x = size.x / 2, .y = size.x / 2});
     }
     sfRectangleShape_setPosition(grid->gridShape, (sfVector2f){.x = size.x / 2, .y = size.y / 2});
+    printf("Resized %.0f x %.0f\n", size.x, size.y);
 }
 
 void ChessGrid_render(ChessGrid* grid, sfRenderWindow* window)

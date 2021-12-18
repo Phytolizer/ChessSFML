@@ -1,6 +1,7 @@
 #include <Chess/ChessGrid.h>
 #include <SFML/Graphics/RenderWindow.h>
 #include <SFML/Window/Event.h>
+#include <stdio.h>
 
 int main(void)
 {
@@ -25,6 +26,9 @@ int main(void)
                 break;
             case sfEvtResized:
                 ChessGrid_scaleToFit(&grid, (sfVector2f){.x = event.size.width, .y = event.size.height});
+                break;
+            case sfEvtMouseMoved:
+                printf("Mouse moved: %d, %d\n", event.mouseMove.x, event.mouseMove.y);
                 break;
             default:
                 break;
