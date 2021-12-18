@@ -58,15 +58,9 @@ endfunction(chess_library)
 
 chess_library(
     "ChessLib"
-    SOURCES
-    "ChessGrid.c"
-    "ChessPieceType.c"
-    INCLUDE_DIRECTORIES
-    "Include"
-    LINK_LIBRARIES
-    "csfml-graphics"
-    "csfml-system"
-    "csfml-window"
+    SOURCES "ChessGrid.c" "ChessPieceType.c"
+    INCLUDE_DIRECTORIES "Include"
+    LINK_LIBRARIES "csfml-graphics" "csfml-system" "csfml-window"
 )
 
 chess_executable("Chess" SOURCES "Main.c" LINK_LIBRARIES "ChessLib")
