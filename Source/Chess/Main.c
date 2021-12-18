@@ -4,17 +4,33 @@
 #include <SFML/Graphics/Types.h>
 #include <SFML/Graphics/View.h>
 #include <SFML/Window/Event.h>
+#include <SFML/Window/Window.h>
 #include <stdio.h>
 
 int main(void)
 {
+    sfContextSettings contextSettings = {
+        .antialiasingLevel = 8,
+        .attributeFlags = sfContextDefault,
+        .depthBits = 24,
+        .majorVersion = 3,
+        .minorVersion = 3,
+        .sRgbCapable = sfFalse,
+    };
     sfRenderWindow* window = sfRenderWindow_create(
         (sfVideoMode){
             .bitsPerPixel = 32,
             .width = 800,
             .height = 800,
         },
-        "Chess", sfResize | sfClose, NULL);
+        "Chess", sfResize | sfClose, &contextSettings);
+    sfView* view = sfView_createFromRect((sfFloatRect){
+        .left = 0,
+        .top = 0,
+        .width = 800,
+        .height = 800,
+    });
+    sfRenderWindow_setView(window, view);
     ChessGrid grid;
     ChessGrid_init(&grid, window);
     while (sfRenderWindow_isOpen(window))
@@ -27,18 +43,16 @@ int main(void)
             case sfEvtClosed:
                 sfRenderWindow_close(window);
                 break;
-            case sfEvtResized: {
-                sfView* view = sfView_createFromRect((sfFloatRect){
-                    .left = 0,
-                    .top = 0,
-                    .width = event.size.width,
-                    .height = event.size.height,
-                });
+            case sfEvtResized:
+                sfView_reset(view, (sfFloatRect){
+                                       .left = 0,
+                                       .top = 0,
+                                       .width = event.size.width,
+                                       .height = event.size.height,
+                                   });
                 sfRenderWindow_setView(window, view);
-                sfView_destroy(view);
                 ChessGrid_scaleToFit(&grid, (sfVector2f){.x = event.size.width, .y = event.size.height});
-            }
-            break;
+                break;
             case sfEvtMouseMoved:
                 printf("Mouse moved: %d, %d\n", event.mouseMove.x, event.mouseMove.y);
                 break;
@@ -51,6 +65,7 @@ int main(void)
         sfRenderWindow_display(window);
     }
     ChessGrid_deinit(&grid);
+    sfView_destroy(view);
     sfRenderWindow_destroy(window);
     return 0;
 }
